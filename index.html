@@ -4,7 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mis Pendientes — Mari Fer</title>
-<link rel="stylesheet" href="css/styles.css"/>
+<link rel="stylesheet" href="css/styles.css?v=5"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
@@ -16,9 +17,7 @@
     <div class="splash-name">Mis Pendientes</div>
     <div class="splash-sub">Mari Fer Corona</div>
     <div class="splash-greeting" id="splash-greeting">¡Buenos días!<br>¿Lista para organizar tu día?</div>
-    <button class="splash-btn" onclick="enterApp()">
-      Entrar a la app ✨
-    </button>
+    <button class="splash-btn" onclick="enterApp()">Entrar a la app ✨</button>
     <div class="splash-dots">
       <div class="splash-dot active"></div>
       <div class="splash-dot"></div>
@@ -32,6 +31,7 @@
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
+
   <div class="sidebar-profile">
     <div class="profile-card">
       <div class="profile-avatar">M</div>
@@ -39,43 +39,84 @@
         <div class="profile-name">Mari Fer Corona</div>
         <div class="profile-role">Empresaria Agropecuaria</div>
       </div>
-      <button class="profile-collapse" onclick="toggleSidebar()" title="Contraer">«</button>
+      <button class="profile-collapse" onclick="toggleSidebar()" title="Contraer">
+        <i data-lucide="chevrons-left"></i>
+      </button>
     </div>
   </div>
+
   <button class="sidebar-item active" data-area="inicio" onclick="setArea('inicio')">
-    <span class="s-icon">🏠</span> Inicio
+    <span class="s-icon ic-inicio"><i data-lucide="layout-dashboard"></i></span>
+    Inicio
   </button>
+
   <div class="sidebar-divider"></div>
   <div class="sidebar-section">Áreas de trabajo</div>
-  <button class="sidebar-item" data-area="granja"   onclick="setArea('granja')">   <span class="s-icon">🐔</span> Granja    <span class="badge-count" id="bc-granja">0</span></button>
-  <button class="sidebar-item"        data-area="curso"    onclick="setArea('curso')">    <span class="s-icon">📚</span> Curso     <span class="badge-count" id="bc-curso">0</span></button>
-  <button class="sidebar-item"        data-area="equipos"  onclick="setArea('equipos')">  <span class="s-icon">🔧</span> Equipos   <span class="badge-count" id="bc-equipos">0</span></button>
-  <button class="sidebar-item"        data-area="escuelas" onclick="setArea('escuelas')"> <span class="s-icon">🏫</span> Escuelas  <span class="badge-count" id="bc-escuelas">0</span></button>
-  <button class="sidebar-item"        data-area="familia"  onclick="setArea('familia')">  <span class="s-icon">🏠</span> Familia   <span class="badge-count" id="bc-familia">0</span></button>
-  <button class="sidebar-item"        data-area="personal" onclick="setArea('personal')"> <span class="s-icon">👤</span> Personal  <span class="badge-count" id="bc-personal">0</span></button>
-  <button class="sidebar-item"        data-area="otro"     onclick="setArea('otro')">     <span class="s-icon">📌</span> Otro      <span class="badge-count" id="bc-otro">0</span></button>
+
+  <button class="sidebar-item" data-area="granja" onclick="setArea('granja')">
+    <span class="s-icon ic-granja"><i data-lucide="egg"></i></span>
+    Granja
+    <span class="badge-count" id="bc-granja">0</span>
+  </button>
+  <button class="sidebar-item" data-area="curso" onclick="setArea('curso')">
+    <span class="s-icon ic-curso"><i data-lucide="graduation-cap"></i></span>
+    Curso
+    <span class="badge-count" id="bc-curso">0</span>
+  </button>
+  <button class="sidebar-item" data-area="equipos" onclick="setArea('equipos')">
+    <span class="s-icon ic-equipos"><i data-lucide="wrench"></i></span>
+    Equipos
+    <span class="badge-count" id="bc-equipos">0</span>
+  </button>
+  <button class="sidebar-item" data-area="escuelas" onclick="setArea('escuelas')">
+    <span class="s-icon ic-escuelas"><i data-lucide="school"></i></span>
+    Escuelas
+    <span class="badge-count" id="bc-escuelas">0</span>
+  </button>
+  <button class="sidebar-item" data-area="familia" onclick="setArea('familia')">
+    <span class="s-icon ic-familia"><i data-lucide="users"></i></span>
+    Familia
+    <span class="badge-count" id="bc-familia">0</span>
+  </button>
+  <button class="sidebar-item" data-area="personal" onclick="setArea('personal')">
+    <span class="s-icon ic-personal"><i data-lucide="user-circle"></i></span>
+    Personal
+    <span class="badge-count" id="bc-personal">0</span>
+  </button>
+  <button class="sidebar-item" data-area="otro" onclick="setArea('otro')">
+    <span class="s-icon ic-otro"><i data-lucide="bookmark"></i></span>
+    Otro
+    <span class="badge-count" id="bc-otro">0</span>
+  </button>
 
   <div class="sidebar-divider"></div>
   <div class="sidebar-section">Vistas</div>
+
   <button class="sidebar-item" data-area="prioridades" onclick="setArea('prioridades')">
-    <span class="s-icon">🔥</span> Todas por prioridad
+    <span class="s-icon ic-pri"><i data-lucide="flame"></i></span>
+    Todas por prioridad
   </button>
   <button class="sidebar-item" data-area="super" onclick="setArea('super')">
-    <span class="s-icon">🛒</span> Lista del súper
+    <span class="s-icon ic-super"><i data-lucide="shopping-cart"></i></span>
+    Lista del súper
   </button>
 
   <div class="sidebar-divider"></div>
   <div class="sidebar-section">Herramientas</div>
+
   <button class="sidebar-item" data-area="micalendario" onclick="setArea('micalendario')">
-    <span class="s-icon">📅</span> Mi Calendario
+    <span class="s-icon ic-cal"><i data-lucide="calendar-days"></i></span>
+    Mi Calendario
   </button>
   <button class="sidebar-item" data-area="calendario" onclick="setArea('calendario')">
-    <span class="s-icon">🗓</span> Google Calendar
+    <span class="s-icon ic-gcal"><i data-lucide="calendar-check"></i></span>
+    Google Calendar
   </button>
 
   <div class="sidebar-bottom">
     <button class="sidebar-item" onclick="clearDone()">
-      <span class="s-icon">🗑</span> Limpiar completadas
+      <span class="s-icon ic-trash"><i data-lucide="trash-2"></i></span>
+      Limpiar completadas
     </button>
   </div>
 </aside>
@@ -83,8 +124,10 @@
 <!-- MAIN -->
 <div class="main" id="main">
   <div class="topbar">
-    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menú">☰</button>
-    <span class="topbar-title" id="topbar-title">🐔 Granja</span>
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menú">
+      <i data-lucide="menu"></i>
+    </button>
+    <span class="topbar-title" id="topbar-title">Inicio</span>
     <span class="topbar-pill" id="topbar-count">0 pendientes</span>
   </div>
 
@@ -96,16 +139,16 @@
   <!-- TASKS VIEW -->
   <div class="content" id="view-tasks">
     <div class="stats">
-      <div class="stat hi"><div class="stat-num accent" id="s-pend">0</div><div class="stat-lbl">Pendientes</div></div>
-      <div class="stat">   <div class="stat-num"        id="s-done">0</div><div class="stat-lbl">Listas</div></div>
-      <div class="stat">   <div class="stat-num"        id="s-total">0</div><div class="stat-lbl">Total</div></div>
+      <div class="stat"><div class="stat-num accent" id="s-pend">0</div><div class="stat-lbl">Pendientes</div></div>
+      <div class="stat"><div class="stat-num" id="s-done">0</div><div class="stat-lbl">Listas</div></div>
+      <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">Total</div></div>
     </div>
     <div class="add-box">
       <div class="add-row" style="margin-bottom:8px;">
         <input type="text" id="inp-name" placeholder="Escribe una nueva tarea..."/>
       </div>
       <div class="add-row">
-        <input type="text" id="inp-assignee" placeholder="👤 Asignar a..." style="flex:1;min-width:120px;" list="assignee-datalist" autocomplete="off"/>
+        <input type="text" id="inp-assignee" placeholder="Asignar a..." style="flex:1;min-width:120px;" list="assignee-datalist" autocomplete="off"/>
         <datalist id="assignee-datalist"></datalist>
         <select id="inp-pri" style="flex:1;min-width:110px">
           <option value="media">⚡ Media</option>
@@ -115,8 +158,8 @@
         <button class="btn primary" onclick="addTask()">+ Agregar</button>
       </div>
       <div style="margin-top:10px;display:flex;align-items:center;gap:7px;">
-        <input type="checkbox" id="chk-cal" onchange="toggleCalRow()" style="width:15px;height:15px;accent-color:var(--accent);cursor:pointer;"/>
-        <label for="chk-cal" style="font-size:12.5px;color:var(--text-muted);cursor:pointer;user-select:none;">📅 Agregar evento a Google Calendar</label>
+        <input type="checkbox" id="chk-cal" onchange="toggleCalRow()" style="width:15px;height:15px;accent-color:var(--pink);cursor:pointer;"/>
+        <label for="chk-cal" style="font-size:12.5px;color:var(--text-2);cursor:pointer;user-select:none;">📅 Agregar evento a Google Calendar</label>
       </div>
       <div class="cal-row" id="cal-row">
         <span class="cal-row-label">📅 Fecha y hora:</span>
@@ -189,9 +232,9 @@
           <span>🗓 Google Calendar</span>
           <a href="https://calendar.google.com/calendar/r" target="_blank" class="btn" style="padding:5px 12px;font-size:12px;">Abrir ↗</a>
         </div>
-        <div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:13px;line-height:1.6;">
+        <div style="padding:2rem;text-align:center;color:var(--text-2);font-size:13px;line-height:1.6;">
           Google no permite mostrarse aquí.<br>
-          <a href="https://calendar.google.com/calendar/r" target="_blank" style="color:var(--accent);font-weight:600;text-decoration:none;">Abrir Google Calendar ↗</a>
+          <a href="https://calendar.google.com/calendar/r" target="_blank" style="color:var(--pink);font-weight:600;text-decoration:none;">Abrir Google Calendar ↗</a>
         </div>
       </div>
     </div>
@@ -202,8 +245,8 @@
     <div class="cal-card" style="align-items:center;justify-content:center;gap:1.5rem;padding:3rem 2rem;text-align:center;">
       <div style="font-size:56px;">🗓</div>
       <div>
-        <div style="font-size:18px;font-weight:700;color:var(--accent-dark);margin-bottom:8px;">Google Calendar</div>
-        <div style="font-size:13px;color:var(--text-muted);max-width:300px;line-height:1.6;">Google no permite mostrarse dentro de otras apps. Ábrelo en una pestaña nueva para ver y gestionar tus eventos.</div>
+        <div style="font-size:18px;font-weight:700;color:var(--pink);margin-bottom:8px;">Google Calendar</div>
+        <div style="font-size:13px;color:var(--text-2);max-width:300px;line-height:1.6;">Google no permite mostrarse dentro de otras apps. Ábrelo en una pestaña nueva.</div>
       </div>
       <a href="https://calendar.google.com/calendar/r" target="_blank" class="btn primary" style="font-size:15px;padding:14px 32px;border-radius:999px;display:inline-flex;align-items:center;gap:10px;">
         Abrir Google Calendar ↗
@@ -221,18 +264,18 @@
 <!-- EDIT MODAL -->
 <div class="overlay" id="edit-overlay">
   <div class="modal">
-    <h2>✏️ Editar tarea</h2>
+    <h2>Editar tarea</h2>
     <label>Nombre</label><input type="text" id="edit-name"/>
     <label>Categoría</label>
     <select id="edit-cat">
-      <option value="granja">🐔 Granja</option><option value="curso">📚 Curso</option>
-      <option value="equipos">🔧 Equipos</option><option value="escuelas">🏫 Escuelas</option>
-      <option value="familia">🏠 Familia</option><option value="personal">👤 Personal</option>
-      <option value="otro">📌 Otro</option>
+      <option value="granja">Granja</option><option value="curso">Curso</option>
+      <option value="equipos">Equipos</option><option value="escuelas">Escuelas</option>
+      <option value="familia">Familia</option><option value="personal">Personal</option>
+      <option value="otro">Otro</option>
     </select>
     <label>Prioridad</label>
     <select id="edit-pri">
-      <option value="alta">🔴 Alta</option><option value="media">⚡ Media</option><option value="baja">🔵 Baja</option>
+      <option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option>
     </select>
     <label>Asignado a</label>
     <input type="text" id="edit-assignee" placeholder="Nombre..." list="assignee-datalist" autocomplete="off"/>
@@ -244,5 +287,14 @@
 </div>
 
 <script src="js/firebase.js" type="module"></script>
+<script>
+  // Init Lucide icons after DOM loads
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.lucide) lucide.createIcons();
+  });
+  // Re-init after Firebase renders dynamic content
+  const _origCreate = () => { if (window.lucide) lucide.createIcons(); };
+  window._lucideRefresh = _origCreate;
+</script>
 </body>
 </html>
