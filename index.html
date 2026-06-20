@@ -37,8 +37,12 @@
     <h2>Mis Pendientes</h2>
     <p>Mari Fer Corona</p>
   </div>
+  <button class="sidebar-item active" data-area="inicio" onclick="setArea('inicio')">
+    <span class="s-icon">🏠</span> Inicio
+  </button>
+  <div class="sidebar-divider"></div>
   <div class="sidebar-section">Áreas de trabajo</div>
-  <button class="sidebar-item active" data-area="granja"   onclick="setArea('granja')">   <span class="s-icon">🐔</span> Granja    <span class="badge-count" id="bc-granja">0</span></button>
+  <button class="sidebar-item" data-area="granja"   onclick="setArea('granja')">   <span class="s-icon">🐔</span> Granja    <span class="badge-count" id="bc-granja">0</span></button>
   <button class="sidebar-item"        data-area="curso"    onclick="setArea('curso')">    <span class="s-icon">📚</span> Curso     <span class="badge-count" id="bc-curso">0</span></button>
   <button class="sidebar-item"        data-area="equipos"  onclick="setArea('equipos')">  <span class="s-icon">🔧</span> Equipos   <span class="badge-count" id="bc-equipos">0</span></button>
   <button class="sidebar-item"        data-area="escuelas" onclick="setArea('escuelas')"> <span class="s-icon">🏫</span> Escuelas  <span class="badge-count" id="bc-escuelas">0</span></button>
@@ -77,6 +81,11 @@
     <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menú">☰</button>
     <span class="topbar-title" id="topbar-title">🐔 Granja</span>
     <span class="topbar-pill" id="topbar-count">0 pendientes</span>
+  </div>
+
+  <!-- INICIO VIEW -->
+  <div class="content" id="view-inicio" style="display:none;">
+    <div id="inicio-grid"></div>
   </div>
 
   <!-- TASKS VIEW -->

@@ -16,7 +16,7 @@ const db  = getFirestore(app);
 /* ─── CONSTANTS ─── */
 const CAT      = {granja:'🐔 Granja',personal:'👤 Personal',equipos:'🔧 Equipos',escuelas:'🏫 Escuelas',familia:'🏠 Familia',curso:'📚 Curso',otro:'📌 Otro'};
 const PRI      = {alta:'Alta',media:'Media',baja:'Baja'};
-const TITLES   = {granja:'🐔 Granja',personal:'👤 Personal',equipos:'🔧 Equipos',escuelas:'🏫 Escuelas',familia:'🏠 Familia',curso:'📚 Curso',otro:'📌 Otro',prioridades:'🔥 Todas por prioridad',super:'🛒 Lista del súper',micalendario:'📅 Mi Calendario',calendario:'📅 Google Calendar'};
+const TITLES   = {inicio:'🏠 Inicio',granja:'🐔 Granja',personal:'👤 Personal',equipos:'🔧 Equipos',escuelas:'🏫 Escuelas',familia:'🏠 Familia',curso:'📚 Curso',otro:'📌 Otro',prioridades:'🔥 Todas por prioridad',super:'🛒 Lista del súper',micalendario:'📅 Mi Calendario',calendario:'📅 Google Calendar'};
 const ALL_AREAS= ['granja','curso','equipos','escuelas','familia','personal','otro'];
 const SUPER_CATS={frutas:'🍎 Frutas',verduras:'🥦 Verduras',lacteos:'🥛 Lácteos',carnes:'🥩 Carnes',abarrotes:'🥫 Abarrotes',limpieza:'🧹 Limpieza',otro:'📦 Otro'};
 
@@ -148,22 +148,24 @@ function updateAssigneeSuggestions(){
 function setArea(a){
   area=a;filter='todas';superFilter='todas';
   document.querySelectorAll('.sidebar-item[data-area]').forEach(el=>el.classList.toggle('active',el.dataset.area===a));
-  const isCal=a==='calendario',isPri=a==='prioridades',isSuper=a==='super',isMiCal=a==='micalendario';
-  document.getElementById('view-tasks').style.display=(!isCal&&!isPri&&!isSuper&&!isMiCal)?'block':'none';
+  const isCal=a==='calendario',isPri=a==='prioridades',isSuper=a==='super',isMiCal=a==='micalendario',isInicio=a==='inicio';
+  document.getElementById('view-inicio').style.display=isInicio?'block':'none';
+  document.getElementById('view-tasks').style.display=(!isCal&&!isPri&&!isSuper&&!isMiCal&&!isInicio)?'block':'none';
   document.getElementById('view-pri').style.display=isPri?'block':'none';
   document.getElementById('view-micalendario').style.display=isMiCal?'block':'none';
   document.getElementById('view-super').style.display=isSuper?'block':'none';
   document.getElementById('view-cal').style.display=isCal?'flex':'none';
-  document.getElementById('bottom-bar').style.display=(isCal||isMiCal)?'none':'flex';
+  document.getElementById('bottom-bar').style.display=(isCal||isMiCal||isInicio)?'none':'flex';
   document.getElementById('btn-clear-bought').style.display=isSuper?'inline-flex':'none';
   document.getElementById('btn-clear-done').style.display=isSuper?'none':'inline-flex';
   document.getElementById('topbar-title').textContent=TITLES[a];
-  if(!isCal&&!isPri&&!isSuper&&!isMiCal){
+  if(!isCal&&!isPri&&!isSuper&&!isMiCal&&!isInicio){
     document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.f==='todas'));
     render();
   }else if(isPri){renderPri();}
   else if(isSuper){renderSuper();}
   else if(isMiCal){renderMiCalendario();}
+  else if(isInicio){renderInicio();}
   else{document.getElementById('topbar-count').textContent='Google Calendar';}
   if(window.innerWidth<=620)closeMobileSidebar();
 }
@@ -312,6 +314,65 @@ function tHTML(t,showArea){
       <button class="icon-btn del" onclick="del(${t.id})" title="Eliminar">✕</button>
     </div>
   </div>`;
+}
+
+/* ─── RENDER INICIO ─── */
+function renderInicio(){
+  const AREA_INFO={granja:{icon:'🐔',name:'Granja'},curso:{icon:'📚',name:'Curso'},equipos:{icon:'🔧',name:'Equipos'},escuelas:{icon:'🏫',name:'Escuelas'},familia:{icon:'🏠',name:'Familia'},personal:{icon:'👤',name:'Personal'},otro:{icon:'📌',name:'Otro'}};
+  const h=new Date().getHours();
+  const greeting=h<12?'¡Buenos días! ☀️':h<18?'¡Buenas tardes! 🌤':'¡Buenas noches! 🌙';
+  const totalPend=tasks.filter(t=>!t.done).length;
+  document.getElementById('topbar-count').textContent=totalPend+(totalPend===1?' pendiente':' pendientes');
+  updateBadges();
+
+  let html=`<div class="inicio-greeting">${greeting} Mari Fer</div>
+  <div class="inicio-sub">Tienes <strong>${totalPend}</strong> tarea${totalPend===1?'':'s'} pendiente${totalPend===1?'':'s'} en total</div>
+  <div class="inicio-grid">`;
+
+  ALL_AREAS.forEach(a=>{
+    const info=AREA_INFO[a];
+    const pend=tasks.filter(t=>t.cat===a&&!t.done);
+    const alta=pend.filter(t=>t.pri==='alta').length;
+    const media=pend.filter(t=>t.pri==='media').length;
+    const baja=pend.filter(t=>t.pri==='baja').length;
+    const total=pend.length;
+    const max=Math.max(alta,media,baja,1);
+
+    html+=`<div class="area-card" onclick="setArea('${a}')">
+      <div class="area-card-header">
+        <span class="area-card-icon">${info.icon}</span>
+        <span class="area-card-name">${info.name}</span>
+        <span class="area-card-total ${total===0?'zero':''}">${total}</span>
+      </div>`;
+
+    if(total===0){
+      html+=`<div class="area-card-empty">✓ Sin pendientes</div>`;
+    } else {
+      html+=`<div class="area-pri-bars">`;
+      if(alta>0||media>0||baja>0){
+        html+=`<div class="pri-bar-row">
+          <span class="pri-bar-label">🔴 Alta</span>
+          <div class="pri-bar-track"><div class="pri-bar-fill fill-alta" style="width:${Math.round(alta/max*100)}%"></div></div>
+          <span class="pri-bar-count count-alta">${alta}</span>
+        </div>
+        <div class="pri-bar-row">
+          <span class="pri-bar-label">⚡ Media</span>
+          <div class="pri-bar-track"><div class="pri-bar-fill fill-media" style="width:${Math.round(media/max*100)}%"></div></div>
+          <span class="pri-bar-count count-media">${media}</span>
+        </div>
+        <div class="pri-bar-row">
+          <span class="pri-bar-label">🔵 Baja</span>
+          <div class="pri-bar-track"><div class="pri-bar-fill fill-baja" style="width:${Math.round(baja/max*100)}%"></div></div>
+          <span class="pri-bar-count count-baja">${baja}</span>
+        </div>`;
+      }
+      html+=`</div>`;
+    }
+    html+=`</div>`;
+  });
+
+  html+=`</div>`;
+  document.getElementById('inicio-grid').innerHTML=html;
 }
 
 /* ─── RENDER TASKS ─── */
@@ -477,7 +538,7 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g
 async function init() {
   await loadFromCloud();
   updateAssigneeSuggestions();
-  setArea('granja');
+  setArea('inicio');
 
   document.getElementById('inp-name').addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
   document.getElementById('edit-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEdit();});

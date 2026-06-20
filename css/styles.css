@@ -268,6 +268,30 @@ input[type=checkbox]{width:17px;height:17px;margin-top:2px;cursor:pointer;accent
   .bottom-bar{padding:.6rem 1rem;}
 }
 
+/* ── INICIO / DASHBOARD ── */
+.inicio-greeting{font-size:18px;font-weight:700;color:var(--accent-dark);margin-bottom:4px;}
+.inicio-sub{font-size:13px;color:var(--text-muted);margin-bottom:1.25rem;}
+.inicio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:1.5rem;}
+.area-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .15s,border-color .15s;position:relative;overflow:hidden;}
+.area-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#e8819e);}
+.area-card:hover{box-shadow:var(--shadow-md);border-color:var(--border-mid);}
+.area-card-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.area-card-icon{font-size:20px;}
+.area-card-name{font-size:13px;font-weight:700;color:var(--text);}
+.area-card-total{margin-left:auto;font-size:11px;background:var(--accent);color:#fff;border-radius:999px;padding:1px 8px;font-weight:700;}
+.area-card-total.zero{background:var(--border);color:var(--text-muted);}
+.area-pri-bars{display:flex;flex-direction:column;gap:5px;}
+.pri-bar-row{display:flex;align-items:center;gap:7px;}
+.pri-bar-label{font-size:11px;color:var(--text-muted);width:52px;flex-shrink:0;}
+.pri-bar-track{flex:1;height:6px;background:var(--surface2);border-radius:999px;overflow:hidden;}
+.pri-bar-fill{height:100%;border-radius:999px;transition:width .4s;}
+.fill-alta{background:#e8618a;}
+.fill-media{background:#e8a840;}
+.fill-baja{background:#6080d0;}
+.pri-bar-count{font-size:11px;font-weight:700;width:16px;text-align:right;flex-shrink:0;}
+.count-alta{color:#9a1040;}.count-media{color:#7a5000;}.count-baja{color:#2a4a9a;}
+.area-card-empty{font-size:12px;color:var(--text-hint);text-align:center;padding:.5rem 0;}
+
 /* ── BUILT-IN CALENDAR VIEW ── */
 .cal-view-content{padding:1.25rem 1.5rem 5rem;max-width:none;width:100%;}
 .cal-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:1.1rem;flex-wrap:wrap;}
