@@ -212,13 +212,60 @@ input[type=checkbox]{width:17px;height:17px;margin-top:2px;cursor:pointer;accent
 .sidebar-backdrop.open{display:block;}
 
 @media(max-width:620px){
+  /* sidebar como drawer */
   .sidebar{transform:translateX(calc(-1 * var(--sidebar-w)));}
   .sidebar.mob-open{transform:translateX(0);}
   .main{margin-left:0!important;}
   .bottom-bar{left:0!important;}
+
+  /* tipografía y espaciado */
   .stat-num{font-size:22px;}
   .content{padding:1rem 1rem 5rem;}
   .super-stats{display:none;}
+
+  /* topbar */
+  .topbar{padding:.7rem 1rem;}
+  .topbar-title{font-size:14px;}
+  .topbar-pill{font-size:11px;padding:2px 8px;}
+
+  /* stats en 3 columnas compactas */
+  .stats{gap:7px;margin-bottom:1rem;}
+  .stat{padding:10px 10px;}
+  .stat-lbl{font-size:10px;}
+
+  /* formulario agregar tarea */
+  .add-box{padding:.85rem .9rem;}
+  .add-row{gap:6px;}
+  .add-row input[type=text],.add-row select{font-size:14px;padding:10px 11px;}
+  .btn{padding:10px 14px;font-size:13px;}
+  .btn.primary{padding:10px 16px;}
+
+  /* tareas */
+  .task-item{padding:11px 12px;gap:9px;}
+  .task-name{font-size:14px;}
+  input[type=checkbox]{width:20px;height:20px;}
+  .icon-btn{font-size:16px;padding:6px 7px;}
+
+  /* filtros */
+  .chip{font-size:12px;padding:6px 13px;}
+
+  /* lista del super */
+  .super-add{gap:7px;padding:.8rem .9rem;}
+  .super-item{padding:11px 12px;}
+  .si-name{font-size:14px;}
+
+  /* calendario */
+  .cal-toolbar{gap:7px;}
+  .cal-toolbar-title{font-size:14px;}
+  .month-day{min-height:60px;padding:4px 3px;}
+  .day-num{font-size:11px;}
+  .day-event{font-size:9px;padding:1px 3px;}
+  .week-day-col{min-height:140px;padding:5px 4px;}
+  .week-event{font-size:11px;padding:4px 6px;}
+  .wch-num{font-size:16px;}
+
+  /* bottom bar */
+  .bottom-bar{padding:.6rem 1rem;}
 }
 
 /* ── BUILT-IN CALENDAR VIEW ── */
