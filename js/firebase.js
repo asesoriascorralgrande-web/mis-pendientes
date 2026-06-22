@@ -298,11 +298,44 @@ function updateBadges(){
   });
 }
 
+/* ─── SVG ICON HELPERS ─── */
+const SVG = {
+  egg:     `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"/></svg>`,
+  cap:     `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>`,
+  wrench:  `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  school:  `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 3.447 1.724a1 1 0 0 1 .553.894V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7.382a1 1 0 0 1 .553-.894L6 10"/><path d="m4 6 8-4 8 4"/><circle cx="12" cy="9" r="2"/></svg>`,
+  users:   `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  user:    `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>`,
+  bookmark:`<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>`,
+  pencil:  `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>`,
+  trash:   `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>`,
+  clock:   `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  check:   `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`,
+  flame:   `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
+  zap:     `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>`,
+  drop:    `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>`,
+};
+
+const AREA_SVG = {
+  granja:   {svg:SVG.egg,     color:'#4ade80', bg:'rgba(74,222,128,.15)'},
+  curso:    {svg:SVG.cap,     color:'#60a5fa', bg:'rgba(96,165,250,.15)'},
+  equipos:  {svg:SVG.wrench,  color:'#fb923c', bg:'rgba(251,146,60,.15)'},
+  escuelas: {svg:SVG.school,  color:'#facc15', bg:'rgba(250,204,21,.15)'},
+  familia:  {svg:SVG.users,   color:'#f472b6', bg:'rgba(244,114,182,.15)'},
+  personal: {svg:SVG.user,    color:'#a78bfa', bg:'rgba(167,139,250,.15)'},
+  otro:     {svg:SVG.bookmark,color:'#94a3b8', bg:'rgba(148,163,184,.15)'},
+};
+
+function areaIcon(a, size=20){
+  const info=AREA_SVG[a]||AREA_SVG.otro;
+  return `<span class="area-svg-icon" style="background:${info.bg};color:${info.color};width:${size+16}px;height:${size+16}px;">${info.svg.replace('<svg ','<svg width="'+size+'" height="'+size+'" style="stroke:'+info.color+'" ')}</span>`;
+}
+
 /* ─── TASK HTML ─── */
 function tHTML(t,showArea){
-  const dateStr=t.date?`<span class="task-date">📅 ${new Date(t.date).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</span>`:'';
-  const areaTag=showArea?`<span class="area-tag">${CAT[t.cat]}</span>`:'';
-  const assigneeTag=t.assignee?`<span class="assignee-tag">👤 ${esc(t.assignee)}</span>`:'';
+  const dateStr=t.date?`<span class="task-date">${SVG.clock.replace('<svg ','<svg width="11" height="11" style="stroke:currentColor;vertical-align:middle;margin-right:3px;" ')} ${new Date(t.date).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</span>`:'';
+  const areaTag=showArea?`<span class="area-tag">${AREA_SVG[t.cat]?AREA_SVG[t.cat].svg.replace('<svg ','<svg width="10" height="10" style="stroke:'+AREA_SVG[t.cat].color+';vertical-align:middle;margin-right:3px;" '):''} ${CAT[t.cat].replace(/^.\s/,'')}</span>`:'';
+  const assigneeTag=t.assignee?`<span class="assignee-tag">${SVG.user.replace('<svg ','<svg width="11" height="11" style="stroke:currentColor;vertical-align:middle;margin-right:3px;" ')} ${esc(t.assignee)}</span>`:'';
   return `<div class="task-item ${t.done?'done':''}">
     <input type="checkbox" ${t.done?'checked':''} onchange="toggle(${t.id})"/>
     <div class="task-body">
@@ -310,63 +343,67 @@ function tHTML(t,showArea){
       <div class="task-meta">${areaTag}<span class="pri pri-${t.pri}">${PRI[t.pri]}</span>${assigneeTag}${dateStr}</div>
     </div>
     <div class="task-actions">
-      <button class="icon-btn" onclick="openEdit(${t.id})" title="Editar">✏️</button>
-      <button class="icon-btn del" onclick="del(${t.id})" title="Eliminar">✕</button>
+      <button class="icon-btn" onclick="openEdit(${t.id})" title="Editar">${SVG.pencil.replace('<svg ','<svg width="14" height="14" style="stroke:currentColor" ')}</button>
+      <button class="icon-btn del" onclick="del(${t.id})" title="Eliminar">${SVG.trash.replace('<svg ','<svg width="14" height="14" style="stroke:currentColor" ')}</button>
     </div>
   </div>`;
 }
 
 /* ─── RENDER INICIO ─── */
 function renderInicio(){
-  const AREA_INFO={granja:{icon:'🐔',name:'Granja'},curso:{icon:'📚',name:'Curso'},equipos:{icon:'🔧',name:'Equipos'},escuelas:{icon:'🏫',name:'Escuelas'},familia:{icon:'🏠',name:'Familia'},personal:{icon:'👤',name:'Personal'},otro:{icon:'📌',name:'Otro'}};
+  const AREA_NAME={granja:'Granja',curso:'Curso',equipos:'Equipos',escuelas:'Escuelas',familia:'Familia',personal:'Personal',otro:'Otro'};
   const h=new Date().getHours();
   const greeting=h<12?'¡Buenos días! ☀️':h<18?'¡Buenas tardes! 🌤':'¡Buenas noches! 🌙';
   const totalPend=tasks.filter(t=>!t.done).length;
   document.getElementById('topbar-count').textContent=totalPend+(totalPend===1?' pendiente':' pendientes');
   updateBadges();
 
+  const priIcon=(type)=>{
+    const cfg={alta:{svg:SVG.flame,c:'#f06080'},media:{svg:SVG.zap,c:'#e8a040'},baja:{svg:SVG.drop,c:'#6080d8'}};
+    const {svg,c}=cfg[type];
+    return svg.replace('<svg ','<svg width="11" height="11" style="stroke:'+c+';vertical-align:middle;margin-right:3px;" ');
+  };
+
   let html=`<div class="inicio-greeting">${greeting} Mari Fer</div>
   <div class="inicio-sub">Tienes <strong>${totalPend}</strong> tarea${totalPend===1?'':'s'} pendiente${totalPend===1?'':'s'} en total</div>
   <div class="inicio-grid">`;
 
   ALL_AREAS.forEach(a=>{
-    const info=AREA_INFO[a];
     const pend=tasks.filter(t=>t.cat===a&&!t.done);
     const alta=pend.filter(t=>t.pri==='alta').length;
     const media=pend.filter(t=>t.pri==='media').length;
     const baja=pend.filter(t=>t.pri==='baja').length;
     const total=pend.length;
     const max=Math.max(alta,media,baja,1);
+    const info=AREA_SVG[a];
 
     html+=`<div class="area-card" onclick="setArea('${a}')">
       <div class="area-card-header">
-        <span class="area-card-icon">${info.icon}</span>
-        <span class="area-card-name">${info.name}</span>
+        ${areaIcon(a,18)}
+        <span class="area-card-name">${AREA_NAME[a]}</span>
         <span class="area-card-total ${total===0?'zero':''}">${total}</span>
       </div>`;
 
     if(total===0){
-      html+=`<div class="area-card-empty">✓ Sin pendientes</div>`;
+      html+=`<div class="area-card-empty">${SVG.check.replace('<svg ','<svg width="13" height="13" style="stroke:#4ade80;vertical-align:middle;margin-right:4px;" ')} Sin pendientes</div>`;
     } else {
-      html+=`<div class="area-pri-bars">`;
-      if(alta>0||media>0||baja>0){
-        html+=`<div class="pri-bar-row">
-          <span class="pri-bar-label">🔴 Alta</span>
+      html+=`<div class="area-pri-bars">
+        <div class="pri-bar-row">
+          <span class="pri-bar-label">${priIcon('alta')} Alta</span>
           <div class="pri-bar-track"><div class="pri-bar-fill fill-alta" style="width:${Math.round(alta/max*100)}%"></div></div>
           <span class="pri-bar-count count-alta">${alta}</span>
         </div>
         <div class="pri-bar-row">
-          <span class="pri-bar-label">⚡ Media</span>
+          <span class="pri-bar-label">${priIcon('media')} Media</span>
           <div class="pri-bar-track"><div class="pri-bar-fill fill-media" style="width:${Math.round(media/max*100)}%"></div></div>
           <span class="pri-bar-count count-media">${media}</span>
         </div>
         <div class="pri-bar-row">
-          <span class="pri-bar-label">🔵 Baja</span>
+          <span class="pri-bar-label">${priIcon('baja')} Baja</span>
           <div class="pri-bar-track"><div class="pri-bar-fill fill-baja" style="width:${Math.round(baja/max*100)}%"></div></div>
           <span class="pri-bar-count count-baja">${baja}</span>
-        </div>`;
-      }
-      html+=`</div>`;
+        </div>
+      </div>`;
     }
     html+=`</div>`;
   });
@@ -405,11 +442,18 @@ function renderPri(){
   updateBadges();
   const list=document.getElementById('pri-list');
   if(!total){list.innerHTML=`<div class="empty-state"><div class="e-icon">🎉</div><p>¡Sin tareas pendientes! Todo al día.</p></div>`;return;}
-  function group(items,label,dotClass){
+  const PRI_CFG={
+    alta:{svg:SVG.flame,color:'#f06080',label:'Alta prioridad'},
+    media:{svg:SVG.zap,color:'#e8a040',label:'Media prioridad'},
+    baja:{svg:SVG.drop,color:'#6080d8',label:'Baja prioridad'},
+  };
+  function group(items,priKey){
     if(!items.length)return'';
-    return`<div class="pri-group"><div class="pri-group-header"><div class="pri-dot ${dotClass}"></div><span>${label}</span><span class="count-lbl">(${items.length})</span></div><div class="task-list">${items.map(t=>tHTML(t,true)).join('')}</div></div>`;
+    const {svg,color,label}=PRI_CFG[priKey];
+    const ic=svg.replace('<svg ','<svg width="15" height="15" style="stroke:'+color+'" ');
+    return`<div class="pri-group"><div class="pri-group-header"><span class="pri-group-ic" style="background:${color}22;border:1px solid ${color}44;">${ic}</span><span style="color:${color}">${label}</span><span class="count-lbl">(${items.length})</span></div><div class="task-list">${items.map(t=>tHTML(t,true)).join('')}</div></div>`;
   }
-  list.innerHTML=group(pending.filter(t=>t.pri==='alta'),'Alta prioridad','dot-alta')+group(pending.filter(t=>t.pri==='media'),'Media prioridad','dot-media')+group(pending.filter(t=>t.pri==='baja'),'Baja prioridad','dot-baja');
+  list.innerHTML=group(pending.filter(t=>t.pri==='alta'),'alta')+group(pending.filter(t=>t.pri==='media'),'media')+group(pending.filter(t=>t.pri==='baja'),'baja');
 }
 
 /* ─── RENDER SUPER ─── */
@@ -444,7 +488,7 @@ function renderSuperList(){
           <span class="si-cat si-cat-${s.cat}">${SUPER_CATS[s.cat]||s.cat}</span>
         </div>
       </div>
-      <button class="icon-btn del" onclick="delSuper(${s.id})" title="Quitar">✕</button>
+      <button class="icon-btn del" onclick="delSuper(${s.id})" title="Quitar">${SVG.trash.replace('<svg ','<svg width="14" height="14" style="stroke:currentColor" ')}</button>
     </div>`;
   }
   let html='';

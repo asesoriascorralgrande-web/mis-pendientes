@@ -337,8 +337,9 @@ input[type=checkbox]{
 .pri-group-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
 .pri-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 .dot-alta{background:var(--alta);}.dot-media{background:var(--media);}.dot-baja{background:var(--baja);}
-.pri-group-header span{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-2);}
-.count-lbl{font-size:11px;color:var(--text-3);}
+.pri-group-ic{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pri-group-header span{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;}
+.count-lbl{font-size:11px;color:var(--text-3);font-weight:400;text-transform:none;letter-spacing:0;}
 
 /* SUPER VIEW */
 .super-header{
@@ -456,6 +457,11 @@ input[type=checkbox]{
   background:var(--card2);border:1px solid var(--border2);
   display:flex;align-items:center;justify-content:center;
   font-size:20px;
+}
+.area-svg-icon{
+  border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.08);
 }
 .area-card-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.2px;}
 .area-card-total{
