@@ -4,7 +4,10 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mis Pendientes — Mari Fer</title>
-<link rel="stylesheet" href="css/styles.css?v=5"/>
+<link rel="stylesheet" href="css/styles.css?v=6"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icons/flower-192.png"/>
+<meta name="theme-color" content="#e0507a"/>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
@@ -99,6 +102,10 @@
   <button class="sidebar-item" data-area="super" onclick="setArea('super')">
     <span class="s-icon ic-super"><i data-lucide="shopping-cart"></i></span>
     Lista del súper
+  </button>
+  <button class="sidebar-item" data-area="menu" onclick="setArea('menu')">
+    <span class="s-icon ic-menu"><i data-lucide="utensils"></i></span>
+    Menú de la semana
   </button>
 
   <div class="sidebar-divider"></div>
@@ -211,6 +218,11 @@
     </div>
     <div class="super-cat-tabs" id="super-tabs"></div>
     <div class="super-items" id="super-list"></div>
+  </div>
+
+  <!-- MENU SEMANAL VIEW -->
+  <div class="content" id="view-menu" style="display:none;">
+    <div id="menu-container"></div>
   </div>
 
   <!-- BUILT-IN CALENDAR VIEW -->

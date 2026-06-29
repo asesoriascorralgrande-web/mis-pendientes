@@ -16,13 +16,14 @@ const db  = getFirestore(app);
 /* ─── CONSTANTS ─── */
 const CAT      = {granja:'🐔 Granja',personal:'👤 Personal',equipos:'🔧 Equipos',escuelas:'🏫 Escuelas',familia:'🏠 Familia',curso:'📚 Curso',otro:'📌 Otro'};
 const PRI      = {alta:'Alta',media:'Media',baja:'Baja'};
-const TITLES   = {inicio:'🏠 Inicio',granja:'🐔 Granja',personal:'👤 Personal',equipos:'🔧 Equipos',escuelas:'🏫 Escuelas',familia:'🏠 Familia',curso:'📚 Curso',otro:'📌 Otro',prioridades:'🔥 Todas por prioridad',super:'🛒 Lista del súper',micalendario:'📅 Mi Calendario',calendario:'📅 Google Calendar'};
+const TITLES   = {inicio:'Inicio',granja:'Granja',personal:'Personal',equipos:'Equipos',escuelas:'Escuelas',familia:'Familia',curso:'Curso',otro:'Otro',prioridades:'Todas por prioridad',super:'Lista del súper',micalendario:'Mi Calendario',calendario:'Google Calendar',menu:'Menú de la Semana'};
 const ALL_AREAS= ['granja','curso','equipos','escuelas','familia','personal','otro'];
 const SUPER_CATS={frutas:'🍎 Frutas',verduras:'🥦 Verduras',lacteos:'🥛 Lácteos',carnes:'🥩 Carnes',abarrotes:'🥫 Abarrotes',limpieza:'🧹 Limpieza',otro:'📦 Otro'};
 
 /* ─── STATE ─── */
 let tasks      = [];
 let superItems = [];
+let menuSemanal= {};
 let nextId     = 1;
 let nextSId    = 1;
 let area       = 'granja';
@@ -36,7 +37,7 @@ let calDate    = new Date();
 /* ─── FIRESTORE SAVE/LOAD ─── */
 async function saveToCloud() {
   try {
-    await setDoc(doc(db, 'data', 'main'), { tasks, superItems, nextId, nextSId });
+    await setDoc(doc(db, 'data', 'main'), { tasks, superItems, menuSemanal, nextId, nextSId });
   } catch(e) {
     console.warn('Error guardando en la nube:', e);
     // fallback a localStorage
@@ -54,10 +55,11 @@ async function loadFromCloud() {
     const snap = await getDoc(doc(db, 'data', 'main'));
     if (snap.exists()) {
       const d = snap.data();
-      tasks      = d.tasks      || [];
-      superItems = d.superItems || [];
-      nextId     = d.nextId     || 1;
-      nextSId    = d.nextSId    || 1;
+      tasks       = d.tasks       || [];
+      superItems  = d.superItems  || [];
+      menuSemanal = d.menuSemanal || {};
+      nextId      = d.nextId      || 1;
+      nextSId     = d.nextSId     || 1;
     } else {
       // primera vez — migrar datos de localStorage si existen
       const localTasks = JSON.parse(localStorage.getItem('tasks_v4') || '[]');
@@ -148,24 +150,27 @@ function updateAssigneeSuggestions(){
 function setArea(a){
   area=a;filter='todas';superFilter='todas';
   document.querySelectorAll('.sidebar-item[data-area]').forEach(el=>el.classList.toggle('active',el.dataset.area===a));
-  const isCal=a==='calendario',isPri=a==='prioridades',isSuper=a==='super',isMiCal=a==='micalendario',isInicio=a==='inicio';
+  const isCal=a==='calendario',isPri=a==='prioridades',isSuper=a==='super',isMiCal=a==='micalendario',isInicio=a==='inicio',isMenu=a==='menu';
+  const isTask=!isCal&&!isPri&&!isSuper&&!isMiCal&&!isInicio&&!isMenu;
   document.getElementById('view-inicio').style.display=isInicio?'block':'none';
-  document.getElementById('view-tasks').style.display=(!isCal&&!isPri&&!isSuper&&!isMiCal&&!isInicio)?'block':'none';
+  document.getElementById('view-tasks').style.display=isTask?'block':'none';
   document.getElementById('view-pri').style.display=isPri?'block':'none';
   document.getElementById('view-micalendario').style.display=isMiCal?'block':'none';
   document.getElementById('view-super').style.display=isSuper?'block':'none';
+  document.getElementById('view-menu').style.display=isMenu?'block':'none';
   document.getElementById('view-cal').style.display=isCal?'flex':'none';
-  document.getElementById('bottom-bar').style.display=(isCal||isMiCal||isInicio)?'none':'flex';
+  document.getElementById('bottom-bar').style.display=(isCal||isMiCal||isInicio||isMenu)?'none':'flex';
   document.getElementById('btn-clear-bought').style.display=isSuper?'inline-flex':'none';
   document.getElementById('btn-clear-done').style.display=isSuper?'none':'inline-flex';
   document.getElementById('topbar-title').textContent=TITLES[a];
-  if(!isCal&&!isPri&&!isSuper&&!isMiCal&&!isInicio){
+  if(isTask){
     document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.f==='todas'));
     render();
   }else if(isPri){renderPri();}
   else if(isSuper){renderSuper();}
   else if(isMiCal){renderMiCalendario();}
   else if(isInicio){renderInicio();}
+  else if(isMenu){renderMenu();}
   else{document.getElementById('topbar-count').textContent='Google Calendar';}
   if(window.innerWidth<=620)closeMobileSidebar();
 }
@@ -574,6 +579,100 @@ function renderMiCalendario(){
     document.getElementById('cal-grid').innerHTML=header+cols+'</div></div>';
   }
   document.getElementById('topbar-count').textContent=tasks.filter(t=>t.date&&!t.done).length+' con fecha';
+}
+
+/* ─── MENU SEMANAL ─── */
+const DIAS = [
+  {key:'lun',label:'Lunes'},
+  {key:'mar',label:'Martes'},
+  {key:'mie',label:'Miércoles'},
+  {key:'jue',label:'Jueves'},
+  {key:'vie',label:'Viernes'},
+  {key:'sab',label:'Sábado'},
+  {key:'dom',label:'Domingo'},
+];
+const COMIDAS = [
+  {key:'desayuno', label:'Desayuno', icon:'🌅'},
+  {key:'comida',   label:'Comida',   icon:'☀️'},
+  {key:'cena',     label:'Cena',     icon:'🌙'},
+];
+
+function getMeal(dia,comida){
+  return (menuSemanal[dia]&&menuSemanal[dia][comida])||'';
+}
+
+function updateMeal(dia,comida,val){
+  if(!menuSemanal[dia])menuSemanal[dia]={};
+  menuSemanal[dia][comida]=val;
+  save();
+}
+window.updateMeal=updateMeal;
+
+function addMenuToSuper(){
+  const nuevos=[];
+  DIAS.forEach(d=>COMIDAS.forEach(c=>{
+    const v=getMeal(d.key,c.key).trim();
+    if(v)nuevos.push({id:nextSId++,name:v+' ('+c.label+' '+d.label+')',qty:1,cat:'otro',bought:false});
+  }));
+  if(!nuevos.length){toast('No hay platillos anotados');return;}
+  superItems.unshift(...nuevos);
+  save();
+  toast('✅ '+nuevos.length+' platillos agregados al súper');
+  setArea('super');
+}
+window.addMenuToSuper=addMenuToSuper;
+
+function clearMenu(){
+  if(!confirm('¿Borrar todo el menú de la semana?'))return;
+  menuSemanal={};
+  save();
+  renderMenu();
+  toast('Menú limpiado');
+}
+window.clearMenu=clearMenu;
+
+function renderMenu(){
+  document.getElementById('topbar-count').textContent='7 días';
+  const today=new Date().getDay(); // 0=dom,1=lun...
+  const todayKey=['dom','lun','mar','mie','jue','vie','sab'][today];
+
+  let html=`
+  <div class="menu-header">
+    <div>
+      <div class="menu-title">Menú de la Semana</div>
+      <div class="menu-sub">Planifica tus comidas y agréga los ingredientes al súper</div>
+    </div>
+    <div class="menu-actions">
+      <button class="btn" onclick="clearMenu()">Limpiar</button>
+      <button class="btn primary" onclick="addMenuToSuper()">
+        ${SVG.bookmark.replace('<svg ','<svg width="14" height="14" style="stroke:currentColor;vertical-align:middle;margin-right:5px;" ')}
+        Agregar al súper
+      </button>
+    </div>
+  </div>
+  <div class="menu-grid">`;
+
+  DIAS.forEach(d=>{
+    const isToday=d.key===todayKey;
+    html+=`<div class="menu-day-col${isToday?' menu-today':''}">
+      <div class="menu-day-header">
+        <span class="menu-day-label">${d.label}</span>
+        ${isToday?'<span class="menu-today-dot">Hoy</span>':''}
+      </div>`;
+    COMIDAS.forEach(c=>{
+      const val=esc(getMeal(d.key,c.key));
+      html+=`<div class="menu-meal-block">
+        <div class="menu-meal-label">${c.icon} ${c.label}</div>
+        <textarea class="menu-input" rows="2"
+          onchange="updateMeal('${d.key}','${c.key}',this.value)"
+          placeholder="¿Qué vas a comer?">${val}</textarea>
+      </div>`;
+    });
+    html+=`</div>`;
+  });
+
+  html+=`</div>`;
+  document.getElementById('menu-container').innerHTML=html;
 }
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}

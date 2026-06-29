@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#18090e"/>
+  <!-- petals outer -->
+  <g opacity=".92">
+    <ellipse cx="256" cy="148" rx="38" ry="78" fill="#e05580" transform="rotate(0,256,256)"/>
+    <ellipse cx="256" cy="148" rx="38" ry="78" fill="#c83868" transform="rotate(45,256,256)"/>
+    <ellipse cx="256" cy="148" rx="38" ry="78" fill="#e05580" transform="rotate(90,256,256)"/>
+    <ellipse cx="256" cy="148" rx="38" ry="78" fill="#c83868" transform="rotate(135,256,256)"/>
+    <ellipse cx="256" cy="148" rx="38" ry="78" fill="#e05580" transform="rotate(180,256,256)"/>
+    <ellipse cx="256" cy="148" rx="38" ry="78" fill="#c83868" transform="rotate(225,256,256)"/>
+    <ellipse cx="256" cy="148" rx="38" ry="78" fill="#e05580" transform="rotate(270,256,256)"/>
+    <ellipse cx="256" cy="148" rx="38" ry="78" fill="#c83868" transform="rotate(315,256,256)"/>
+  </g>
+  <!-- petal shine -->
+  <g opacity=".35">
+    <ellipse cx="256" cy="168" rx="16" ry="48" fill="#ffb8d4" transform="rotate(0,256,256)"/>
+    <ellipse cx="256" cy="168" rx="16" ry="48" fill="#ffb8d4" transform="rotate(90,256,256)"/>
+    <ellipse cx="256" cy="168" rx="16" ry="48" fill="#ffb8d4" transform="rotate(180,256,256)"/>
+    <ellipse cx="256" cy="168" rx="16" ry="48" fill="#ffb8d4" transform="rotate(270,256,256)"/>
+  </g>
+  <!-- center -->
+  <circle cx="256" cy="256" r="72" fill="#ff91b9"/>
+  <circle cx="256" cy="256" r="52" fill="#ffd0e8"/>
+  <circle cx="256" cy="256" r="34" fill="#fff0f8"/>
+  <!-- center dots -->
+  <circle cx="256" cy="234" r="5" fill="#e05580" opacity=".6"/>
+  <circle cx="274" cy="246" r="5" fill="#e05580" opacity=".6"/>
+  <circle cx="268" cy="268" r="5" fill="#e05580" opacity=".6"/>
+  <circle cx="244" cy="270" r="5" fill="#e05580" opacity=".6"/>
+  <circle cx="236" cy="248" r="5" fill="#e05580" opacity=".6"/>
+</svg>
